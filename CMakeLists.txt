@@ -22,7 +22,7 @@ include_directories(
 
 #add_definitions(-Wall -Wno-missing-field-initializers)
 #add_definitions(-DSBA_CHOLMOD -DSBA_DSIF)
-#add_definitions(-DSBA_CHOLMOD)
+add_definitions(-DSBA_CHOLMOD)
 
 add_message_files(FILES
     CameraNode.msg
