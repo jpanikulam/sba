@@ -77,6 +77,8 @@ void cholmod_timing(char *fA, char *fB)
     {
 	cholmod_free_sparse (&A, &c) ;
 	cholmod_finish (&c) ;
+        if (ff) fclose(ff);
+        if (fb) fclose(fb);
 	return ;
     }
     printf("Reading %s\n",fB);

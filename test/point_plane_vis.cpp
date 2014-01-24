@@ -23,7 +23,7 @@ class Plane
     {
       Eigen::Matrix3d rotmat = qrot.toRotationMatrix();
       
-      for (unsigned int i = 0; i < points.size(); i++)
+      for (unsigned int i = 0; i < points.size(); ++i)
       {
         points[i].head<3>() = rotmat*points[i].head<3>();
       }
@@ -39,7 +39,7 @@ class Plane
          
     void translate(const Eigen::Vector3d& trans)
     {
-      for (unsigned int i = 0; i < points.size(); i++)
+      for (unsigned int i = 0; i < points.size(); ++i)
       {
         points[i].head<3>() += trans;
       }
@@ -56,9 +56,9 @@ class Plane
     {
       double w2 = width/2.0;
       double h2 = height/2.0;
-      for (int ix = 0; ix < nptsx ; ix++)
+      for (int ix = 0; ix < nptsx ; ++ix)
       {
-        for (int iy = 0; iy < nptsy ; iy++)
+        for (int iy = 0; iy < nptsy ; ++iy)
         {
           // Create a point on the plane in a grid.
           points.push_back(Point(width/nptsx*(ix+.5)-w2, -height/nptsy*(iy+.5)+h2, 0.0, 1.0));
@@ -132,33 +132,27 @@ void setupSBA(SysSBA &sys)
     
     unsigned int i = 0, j = 0;
     
-    for (i = 0; i < nnodes; i++)
+    for (i = 0; i < nnodes; ++i)
     { 
       // Translate in the x direction over the node path.
       Vector4d trans(i/(nnodes-1.0)*path_length, 0, 0, 1);
             
 #if 1
-      if (i >= 0)
-	{
-	  // perturb a little
-	  double tnoise = 0.5;	// meters
-	  trans.x() += tnoise*(drand48()-0.5);
-	  trans.y() += tnoise*(drand48()-0.5);
-	  trans.z() += tnoise*(drand48()-0.5);
-	}
+	// perturb a little
+	double tnoise = 0.5;	// meters
+	trans.x() += tnoise*(drand48()-0.5);
+	trans.y() += tnoise*(drand48()-0.5);
+	trans.z() += tnoise*(drand48()-0.5);
 #endif
 
       // Don't rotate.
       Quaterniond rot(1, 0, 0, 0);
 #if 1
-      if (i >= 0)
-	{
 	  // perturb a little
-	  double qnoise = 0.1;	// meters
-	  rot.x() += qnoise*(drand48()-0.5);
-	  rot.y() += qnoise*(drand48()-0.5);
-	  rot.z() += qnoise*(drand48()-0.5);
-	}
+	double qnoise = 0.1;	// meters
+	rot.x() += qnoise*(drand48()-0.5);
+	rot.y() += qnoise*(drand48()-0.5);
+	rot.z() += qnoise*(drand48()-0.5);
 #endif
       rot.normalize();
       
@@ -169,7 +163,7 @@ void setupSBA(SysSBA &sys)
     double pointnoise = 1.0;
     
     // Add points into the system, and add noise.
-    for (i = 0; i < points.size(); i++)
+    for (i = 0; i < points.size(); ++i)
     {
       // Add up to .5 points of noise.
       Vector4d temppoint = points[i];
@@ -195,13 +189,13 @@ void setupSBA(SysSBA &sys)
     unsigned int leftindex = midindex + leftplane.points.size();
     unsigned int rightindex = leftindex + rightplane.points.size();
     printf("Normal for Middle Plane: [%f %f %f], index %d -> %d\n", middleplane.normal.x(), middleplane.normal.y(), middleplane.normal.z(), 0, midindex-1);
-    printf("Normal for Left Plane:   [%f %f %f], index %d -> %d\n", leftplane.normal.x(), leftplane.normal.y(), leftplane.normal.z(), midindex, leftindex-1);
-    printf("Normal for Right Plane:  [%f %f %f], index %d -> %d\n", rightplane.normal.x(), rightplane.normal.y(), rightplane.normal.z(), leftindex, rightindex-1);
+    printf("Normal for Left Plane:   [%f %f %f], index %u -> %d\n", leftplane.normal.x(), leftplane.normal.y(), leftplane.normal.z(), midindex, leftindex-1);
+    printf("Normal for Right Plane:  [%f %f %f], index %u -> %d\n", rightplane.normal.x(), rightplane.normal.y(), rightplane.normal.z(), leftindex, rightindex-1);
     
     // Project points into nodes.
-    for (i = 0; i < points.size(); i++)
+    for (i = 0; i < points.size(); ++i)
     {
-      for (j = 0; j < sys.nodes.size(); j++)
+      for (j = 0; j < sys.nodes.size(); ++j)
       {
         // Project the point into the node's image coordinate system.
         sys.nodes[j].setProjection();
@@ -241,7 +235,7 @@ void setupSBA(SysSBA &sys)
     double rotscale = 0.2;
     
     // Don't actually add noise to the first node, since it's fixed.
-    for (i = 1; i < sys.nodes.size(); i++)
+    for (i = 1; i < sys.nodes.size(); ++i)
     {
       Vector4d temptrans = sys.nodes[i].trans;
       Quaterniond tempqrot = sys.nodes[i].qrot;
@@ -285,7 +279,7 @@ void processSBA(ros::NodeHandle node)
     // Provide some information about the data read in.
     unsigned int projs = 0;
     // For debugging.
-    for (int i = 0; i < (int)sys.tracks.size(); i++)
+    for (int i = 0; i < (int)sys.tracks.size(); ++i)
     {
       projs += sys.tracks[i].projections.size();
     }

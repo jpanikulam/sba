@@ -69,7 +69,7 @@ int mark_points(SysSBA &sba, Node& ci, vector< Point,Eigen::aligned_allocator<Po
       cout << ci.trans.transpose() << endl;
     }
 
-  for (int i=0; i<npts; i++)
+  for (int i=0; i<npts; ++i)
     {
       Vector2d qi;
       Vector3d qw;
@@ -88,7 +88,7 @@ int mark_points(SysSBA &sba, Node& ci, vector< Point,Eigen::aligned_allocator<Po
               Wptref[i]++;
               if (Wptref[i] == 2)
                 {
-                  ntot++;
+                  ++ntot;
                   Wptind[i] = sba.tracks.size(); // index into Wpts
                   //              cout << ntot << " " << sba.points.size() << endl;
                   sba.addPoint(Wpts[i]);
@@ -96,7 +96,7 @@ int mark_points(SysSBA &sba, Node& ci, vector< Point,Eigen::aligned_allocator<Po
             }
         }
     }  
-  camn++;
+  ++camn;
   return ntot;
 }
 
@@ -114,7 +114,7 @@ int add_points(SysSBA &sba, double inoise, int cind,
   Node &ci = sba.nodes[cind];
   double maxx = 2.0*ci.Kcam(0,2); // cx
   double maxy = 2.0*ci.Kcam(1,2); // cy
-  for (int i=0; i<npts; i++)
+  for (int i=0; i<npts; ++i)
     {
       if (Wptref[i] < 2) continue; // have to have at least two points
       Vector2d qi;
@@ -130,7 +130,7 @@ int add_points(SysSBA &sba, double inoise, int cind,
               qi[1] += drand48() * inoise - inoise2;
               //              cout << "Cam and pt indices: " << cind << " " << Wptind[i] << endl;
               sba.addMonoProj(cind, Wptind[i], qi);
-              ntot++;
+              ++ntot;
             }
         }
     }  
@@ -174,11 +174,11 @@ spiral_setup(SysSBA &sba, CamParams &cpars, vector<Matrix<double,6,1>, Eigen::al
   Wpts.resize(Npts);            // 10K points
   Wptref.resize(Npts);
   Wptind.resize(Npts);
-  for (int i=0; i<Npts; i++)
+  for (int i=0; i<Npts; ++i)
     Wptref[i] = 0;
   
   // fill with random points
-  for (int i=0; i<Npts; i++)
+  for (int i=0; i<Npts; ++i)
     {
       Vector4d qw;
       qw[0] = drand48() * Wsize - Wsize2;
@@ -210,7 +210,7 @@ spiral_setup(SysSBA &sba, CamParams &cpars, vector<Matrix<double,6,1>, Eigen::al
   printf("\n[Spiral] Setting up spiral with %d keyframes, %d per cycle\n", (int)(cycles*cycle_kfs), (int)cycle_kfs);
   //  printf("[Spiral] Camera poses:\n");
   
-  for (int i=0; i<cycles*cycle_kfs; i++, ang+=kfang*M_PI/180, y+=ydiff/cycle_kfs)
+  for (int i=0; i<cycles*cycle_kfs; ++i, ang+=kfang*M_PI/180, y+=ydiff/cycle_kfs)
     {
       if (ang > 2*M_PI)
         ang -= 2*M_PI;
@@ -254,7 +254,7 @@ spiral_setup(SysSBA &sba, CamParams &cpars, vector<Matrix<double,6,1>, Eigen::al
 
   // loop over cameras, adding measurements
   double totrefs = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       int ret = add_points(sba, inoise, i, Wpts, Wptref, Wptind);
       totrefs += ret;
@@ -264,14 +264,14 @@ spiral_setup(SysSBA &sba, CamParams &cpars, vector<Matrix<double,6,1>, Eigen::al
   printf("[Spiral] Average %0.1f measurements per camera\n", avpts);
 
   int ntr = 0;
-  for (size_t i=0; i<sba.tracks.size(); i++)
+  for (size_t i=0; i<sba.tracks.size(); ++i)
     ntr += sba.tracks[i].projections.size();
   double avtracks = ntr / (double)sba.tracks.size();
   printf("[Spiral] Average %0.1f measurements per track\n", avtracks);
 
 
   // add error to initial positions
-  for (size_t i=0; i<sba.nodes.size(); i++)
+  for (size_t i=0; i<sba.nodes.size(); ++i)
     {
       Node &nd = sba.nodes[i];
       if (i>0)          // add error
@@ -372,7 +372,7 @@ spa_spiral_setup(SysSPA &spa, bool use_cross_links,
   printf("\n[SPA Spiral] Setting up spiral with %d keyframes, %d per cycle\n", (int)(cycles*cycle_kfs), (int)cycle_kfs);
   //  printf("[SPA Spiral] Camera poses:\n");
   
-  for (int i=0; i<cycles*cycle_kfs; i++, ang+=kfang*M_PI/180, y+=ydiff/cycle_kfs)
+  for (int i=0; i<cycles*cycle_kfs; ++i, ang+=kfang*M_PI/180, y+=ydiff/cycle_kfs)
     {
       if (ang > 2*M_PI)
         ang -= 2*M_PI;
@@ -415,7 +415,7 @@ spa_spiral_setup(SysSPA &spa, bool use_cross_links,
   Vector3d tinc;
   tinc = spa.nodes[0].w2n * spa.nodes[1].trans;
   double vinc = 1.0;
-  for (int i=0; i<(int)spa.nodes.size(); i++)
+  for (int i=0; i<(int)spa.nodes.size(); ++i)
     {
       Node &nd = spa.nodes[i];
 
@@ -468,7 +468,7 @@ spa_spiral_setup(SysSPA &spa, bool use_cross_links,
     }
 
   // loop over cameras, adding local measurements
-  for (int i=1; i<(int)cps.size(); i++)
+  for (int i=1; i<(int)cps.size(); ++i)
     {
       add_p2con(spa, i-1, i, prec, 0.0, 0.0);
       if (i>2)
@@ -479,7 +479,7 @@ spa_spiral_setup(SysSPA &spa, bool use_cross_links,
     }
 
   // finally, some initial random noise on node positions and angles
-  for (int i=0; i<(int)spa.nodes.size(); i++)
+  for (int i=0; i<(int)spa.nodes.size(); ++i)
     {
       Node &nd = spa.nodes[i];
 
@@ -575,7 +575,7 @@ spa2d_spiral_setup(SysSPA2d &spa,
   printf("\n[SPA Spiral] Setting up spiral with %d keyframes, %d per cycle\n", (int)(cycles*cycle_kfs), (int)cycle_kfs);
   //  printf("[SPA Spiral] Camera poses:\n");
   
-  for (int i=0; i<cycles*cycle_kfs; i++, ang+=kfang*M_PI/180, radius+=rdiff/cycle_kfs)
+  for (int i=0; i<cycles*cycle_kfs; ++i, ang+=kfang*M_PI/180, radius+=rdiff/cycle_kfs)
     {
       if (ang > 2*M_PI)
         ang -= 2*M_PI;
@@ -615,7 +615,7 @@ spa2d_spiral_setup(SysSPA2d &spa,
   qnoise = M_PI*qnoise/180.0; // convert to radians
   Vector2d tinc;
   double vinc = 1.0;
-  for (int i=0; i<(int)spa.nodes.size(); i++)
+  for (int i=0; i<(int)spa.nodes.size(); ++i)
     {
       Node2d &nd = spa.nodes[i];
 
@@ -661,7 +661,7 @@ spa2d_spiral_setup(SysSPA2d &spa,
     }
 
   // loop over cameras, adding measurements
-  for (int i=1; i<(int)cps.size(); i++)
+  for (int i=1; i<(int)cps.size(); ++i)
     {
       add_p2con2d(spa, i-1, i, prec, 0.0, 0.0);
       if (i>2)
@@ -674,7 +674,7 @@ spa2d_spiral_setup(SysSPA2d &spa,
     }
 
   // finally, some initial random noise on node positions and angles
-  for (int i=0; i<(int)spa.nodes.size(); i++)
+  for (int i=0; i<(int)spa.nodes.size(); ++i)
     {
       Node2d &nd = spa.nodes[i];
 
@@ -707,7 +707,7 @@ add_sphere_points(SysSBA &sba, double inoise, set<int> &cinds, int ncpts)
 {
   double inoise2 = inoise*0.5;
 
-  for (int i=0; i<ncpts; i++)
+  for (int i=0; i<ncpts; ++i)
     {
       // make random point in 0.5m sphere
       Vector4d pt;
@@ -719,7 +719,7 @@ add_sphere_points(SysSBA &sba, double inoise, set<int> &cinds, int ncpts)
 
       // now add projections to each camera
       set<int>::iterator it;
-      for (it=cinds.begin(); it!=cinds.end(); it++)
+      for (it=cinds.begin(); it!=cinds.end(); ++it)
 	{
 	  Node &nd = sba.nodes[*it];
 	  Vector2d qi;
@@ -745,7 +745,7 @@ find_cams(SysSBA &sba, int ci, set<int> &cinds, int nconns)
   
   // order cams relative to ci
   map<double,int> nn;
-  for (int i=0; i<(int)sba.nodes.size(); i++)
+  for (int i=0; i<(int)sba.nodes.size(); ++i)
     {
       if (i == ci) continue;
       double dist = cv.dot(sba.nodes[i].trans.head(3));
@@ -755,7 +755,7 @@ find_cams(SysSBA &sba, int ci, set<int> &cinds, int nconns)
   // insert near ones
   map<double,int>::iterator it;
   int k = 0;
-  for (it=nn.begin(); it!=nn.end(); it++, k++)
+  for (it=nn.begin(); it!=nn.end(); ++it, ++k)
     {
       if (k >= nnear) break;
       cinds.insert((*it).second);
@@ -764,9 +764,9 @@ find_cams(SysSBA &sba, int ci, set<int> &cinds, int nconns)
   // insert far ones
   k = 0;
   it=nn.begin();
-  for (int i=0; i< (int)sba.nodes.size() - nnear - 10; i++)
-    it++;
-  for (; it!=nn.end(); it++, k++)
+  for (int i=0; i< (int)sba.nodes.size() - nnear - 10; ++i)
+    ++it;
+  for (; it!=nn.end(); ++it, ++k)
     {
       if (k >= nnear) break;
       cinds.insert((*it).second);
@@ -775,7 +775,7 @@ find_cams(SysSBA &sba, int ci, set<int> &cinds, int nconns)
 #if 0
   // insert far ones
   int ncams = sba.nodes.size();
-  for (int i=ncams-20; i<ncams-20+nnear; i++)
+  for (int i=ncams-20; i<ncams-20+nnear; ++i)
     cinds.insert(nn[i]);
 #endif
 }
@@ -795,7 +795,7 @@ sphere_setup(SysSBA &sba, CamParams &cpars, vector<Matrix<double,6,1>, Eigen::al
   // cams around sphere, at radius 1.0
   //
 
-  for (int i=0; i<ncams; i++)
+  for (int i=0; i<ncams; ++i)
     {
       double x = drand48()*2.0 - 1.0; // in the range [-1.0,1.0]
       double y = drand48()*2.0 - 1.0;
@@ -837,7 +837,7 @@ sphere_setup(SysSBA &sba, CamParams &cpars, vector<Matrix<double,6,1>, Eigen::al
     }
 
   // add point projections
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       // form list of connected cameras
       set<int> cinds;
@@ -846,7 +846,7 @@ sphere_setup(SysSBA &sba, CamParams &cpars, vector<Matrix<double,6,1>, Eigen::al
     }
 
   // add error to initial positions
-  for (size_t i=0; i<sba.nodes.size(); i++)
+  for (size_t i=0; i<sba.nodes.size(); ++i)
     {
       Node &nd = sba.nodes[i];
       if (i>0)          // add error

@@ -71,7 +71,7 @@ static int useInit = 0;
 
 
 void buildConstraintCache(std::multimap<int,int>& constraintCache, std::vector< Eigen::Vector2i, Eigen::aligned_allocator<Eigen::Vector2i> >& cind){
-  for (size_t i=0; i<cind.size(); i++){
+  for (size_t i=0; i<cind.size(); ++i){
     int idx_a=cind[i].x();
     int idx_b=cind[i].y();
     if (idx_a<idx_b){
@@ -173,13 +173,13 @@ addnode(SysSPA2d &spa, int n,
     if ((con.ndr == n && con.nd1 <= n-1) ||
 	(con.nd1 == n && con.ndr <= n-1))
       {
-	cnum++;
+	++cnum;
 	con.tmean = ctrans[i];
 	con.amean = carot[i];
 	con.prec = cvar[i];       // ??? should this be inverted ???
 	spa.p2cons.push_back(con);
       } 
-    it++;
+    ++it;
   }
   return cnum;
 }
@@ -239,15 +239,15 @@ drawgraph(SysSPA2d &spa, ros::Publisher &marker_pub, ros::Publisher &marker2_pub
     marker_pts.type = visualization_msgs::Marker::POINTS;
 
     // find number of good and bad links
-    for (int i=0; i<ncons; i++)
+    for (int i=0; i<ncons; ++i)
       {
         Con2dP2 &con = spa.p2cons[i];
         Node2d &nd0 = spa.nodes[con.ndr];
         Node2d &nd1 = spa.nodes[con.nd1];
         if (con.calcErrDist(nd0,nd1) > good_thresh*good_thresh)
-          nbad++;
+          ++nbad;
         else 
-          ngood++;
+          ++ngood;
       }
 
     marker.points.resize(2*ngood);
@@ -255,7 +255,7 @@ drawgraph(SysSPA2d &spa, ros::Publisher &marker_pub, ros::Publisher &marker2_pub
     nbad += nbad-1;
     ngood += ngood-1;
 
-    for (int i=0; i<ncons; i++)
+    for (int i=0; i<ncons; ++i)
       {
         Con2dP2 &con = spa.p2cons[i];
         Node2d &nd0 = spa.nodes[con.ndr];
@@ -287,12 +287,12 @@ drawgraph(SysSPA2d &spa, ros::Publisher &marker_pub, ros::Publisher &marker2_pub
     if (nscans > (int)spa.nodes.size())
       nscans = spa.nodes.size();
     int npts = 0;
-    for (int i=0; i<nscans; i++)
+    for (int i=0; i<nscans; ++i)
       npts += spa.scans[i].size()/nskip + 1;
     marker_pts.points.resize(npts);
 
     // draw points
-    for (int i=0; i<nscans; i++)
+    for (int i=0; i<nscans; ++i)
       {
         std::vector< Eigen::Vector2d, Eigen::aligned_allocator<Eigen::Vector2d> > &scan = spa.scans[i];
         Node2d &nd = spa.nodes[i];
@@ -367,7 +367,7 @@ int main(int argc, char **argv)
 
   ReadSPA2dFile(fin,ntrans,arots,cind,ctrans,carot,cvar,scans);
   int npts = 0;
-  for (int i=0; i<(int)scans.size(); i++)
+  for (int i=0; i<(int)scans.size(); ++i)
     npts += scans[i].size();
 
   cout << "[ReadSPA2dFile] Found " << (int)ntrans.size() << " nodes, " 
@@ -431,7 +431,7 @@ int main(int argc, char **argv)
     // add in nodes
     if (onn < nnodes)
       {
-	for (int i=onn; i<nn; i++)
+	for (int i=onn; i<nn; ++i)
 	  addnode(spa, i, ntrans, arots, cind, ctrans, carot, cvar, constraintCache);
       }
 
@@ -445,7 +445,7 @@ int main(int argc, char **argv)
       }
 
     cout << "[TestSPA] Publishing " << iter << endl;
-    iter++;
+    ++iter;
     drawgraph(spa,marker_pub,marker2_pub,marker_pts_pub);
 
     if (!contin)

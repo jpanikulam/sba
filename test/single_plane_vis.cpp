@@ -26,7 +26,7 @@ class Plane
     {
       Eigen::Matrix3d rotmat = qrot.toRotationMatrix();
       
-      for (unsigned int i = 0; i < points.size(); i++)
+      for (unsigned int i = 0; i < points.size(); ++i)
       {
         points[i].head<3>() = rotmat*points[i].head<3>();
       }
@@ -42,7 +42,7 @@ class Plane
          
     void translate(const Eigen::Vector3d& trans)
     {
-      for (unsigned int i = 0; i < points.size(); i++)
+      for (unsigned int i = 0; i < points.size(); ++i)
       {
         points[i].head<3>() += trans;
       }
@@ -57,9 +57,9 @@ class Plane
     // Creates a plane with origin at (0,0,0) and opposite corner at (width, height, 0).
     void resize(double width, double height, int nptsx, int nptsy)
     {
-      for (int ix = 0; ix < nptsx ; ix++)
+      for (int ix = 0; ix < nptsx ; ++ix)
       {
-        for (int iy = 0; iy < nptsy ; iy++)
+        for (int iy = 0; iy < nptsy ; ++iy)
         {
           // Create a point on the plane in a grid.
           points.push_back(Point(width/nptsx*(ix+.5), -height/nptsy*(iy+.5), 0.0, 1.0));
@@ -105,7 +105,7 @@ void setupSBA(SysSBA &sba)
     unsigned short seed = (unsigned short)time(NULL);
     seed48(&seed);
     
-    for (int i = 0; i < nnodes; i++)
+    for (int i = 0; i < nnodes; ++i)
     { 
       // Translate in the x direction over the node path.
       Vector4d trans(i/(nnodes-1.0)*path_length, 0, 0, 1);
@@ -160,7 +160,7 @@ void setupSBA(SysSBA &sba)
     printf("Normal: %f %f %f -> %f %f %f\n", plane0.normal.x(), plane0.normal.y(), plane0.normal.z(), normal0.x(), normal0.y(), normal0.z());
     printf("Normal: %f %f %f -> %f %f %f\n", plane1.normal.x(), plane1.normal.y(), plane1.normal.z(), normal1.x(), normal1.y(), normal1.z());
     
-    for (int i = 0; i < plane0.points.size(); i++)
+    for (int i = 0; i < plane0.points.size(); ++i)
     {
       sba.addPointPlaneMatch(0, i, normal0, 1, i+offset, normal1);
 
@@ -178,7 +178,7 @@ void setupSBA(SysSBA &sba)
     double rotscale = 0.1;
     
     // Don't actually add noise to the first node, since it's fixed.
-    for (int i = 1; i < sba.nodes.size(); i++)
+    for (int i = 1; i < sba.nodes.size(); ++i)
     {
       Vector4d temptrans = sba.nodes[i].trans;
       Quaterniond tempqrot = sba.nodes[i].qrot;
@@ -210,7 +210,7 @@ int addPointAndProjection(SysSBA& sba, vector<Point, Eigen::aligned_allocator<Po
     int maxy = 480;
 
     // Project points into nodes.
-    for (int i = 0; i < points.size(); i++)
+    for (int i = 0; i < points.size(); ++i)
     {
       double pointnoise = 0.1;
   
@@ -270,7 +270,7 @@ void processSBA(ros::NodeHandle node)
     // Provide some information about the data read in.
     unsigned int projs = 0;
     // For debugging.
-    for (int i = 0; i < (int)sba.tracks.size(); i++)
+    for (int i = 0; i < (int)sba.tracks.size(); ++i)
     {
       projs += sba.tracks[i].projections.size();
     }
@@ -323,7 +323,7 @@ void processSBA(ros::NodeHandle node)
     ros::spinOnce();
     ros::Duration(0.5).sleep();
 
-    for (int j=0; j<20; j++)
+    for (int j=0; j<20; ++j)
       {
         if (!ros::ok())
 	        break;

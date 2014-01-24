@@ -308,7 +308,7 @@ TEST(TestMono, TestMonoLocalScale)
   // write out pose results and originals
   cout << "[SPAsys] Writing pose file" << endl;  
   ofstream ofs3("P400.init.txt");
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Vector3d tpn = spa.nodes[i].trans.head(3);
       ofs3 << tpn.transpose() << endl;
@@ -322,7 +322,7 @@ TEST(TestMono, TestMonoLocalScale)
 #if 0
   ConScale con;
   con.w = 0.1;                // weight
-  for (int i=0; i<(int)cps.size()-3; i++)
+  for (int i=0; i<(int)cps.size()-3; ++i)
     {
       spa.scales.push_back(1.0);
       con.nd0 = i;              // first node
@@ -381,7 +381,7 @@ TEST(TestMono, TestMonoLocalScale)
 #if 0
   ConScale con;
   con.w = 0.1;                // weight
-  for (int i=72; i<(int)cps.size()-3; i++)
+  for (int i=72; i<(int)cps.size()-3; ++i)
     {
       spa.scales.push_back(1.0);
       con.nd0 = i;              // first node
@@ -428,7 +428,7 @@ TEST(TestMono, TestMonoLocalScale)
   // test results
   double sqerr = 0.0;
   double asqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -476,7 +476,7 @@ TEST(TestMono, TestMonoLocalScale)
   cout << "[SPAsys] Writing pose file" << endl;  
   ofstream ofs1("P400.ground.txt");
   ofstream ofs2("P400.optim.txt");
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -496,7 +496,7 @@ TEST(TestMono, TestMonoLocalScale)
   // test results
   double sqerr = 0.0;
   double asqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);

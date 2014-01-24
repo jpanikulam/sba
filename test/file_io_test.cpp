@@ -82,9 +82,9 @@ void SBAFileIOTest::SetUp()
     double plane_height = 2.5;    // Height of the plane on which points are positioned (y)
     double plane_distance = 5; // Distance of the plane from the cameras (z)
 
-    for (int ix = 0; ix < npts_x ; ix++)
+    for (int ix = 0; ix < npts_x ; ++ix)
     {
-      for (int iy = 0; iy < npts_y ; iy++)
+      for (int iy = 0; iy < npts_y ; ++iy)
       {
         // Create a point on the plane in a grid.
         points.push_back(Point(plane_width/npts_x*(ix+.5), -plane_height/npts_y*(iy+.5), plane_distance, 1.0));
@@ -97,7 +97,7 @@ void SBAFileIOTest::SetUp()
     
     unsigned int i = 0, j = 0;
     
-    for (i = 0; i < nnodes; i++)
+    for (i = 0; i < nnodes; ++i)
     { 
       // Translate in the x direction over the node path.
       Vector4d trans(i/(nnodes-1.0)*path_length, 0, 0, 1);
@@ -115,7 +115,7 @@ void SBAFileIOTest::SetUp()
     seed48(&seed);
         
     // Add points into the system, and add noise.
-    for (i = 0; i < points.size(); i++)
+    for (i = 0; i < points.size(); ++i)
     {
       // Add up to .5 points of noise.
       Vector4d temppoint = points[i];
@@ -128,9 +128,9 @@ void SBAFileIOTest::SetUp()
     Vector2d proj;
     
     // Project points into nodes.
-    for (i = 0; i < points.size(); i++)
+    for (i = 0; i < points.size(); ++i)
     {
-      for (j = 0; j < sys.nodes.size(); j++)
+      for (j = 0; j < sys.nodes.size(); ++j)
       {
         // Project the point into the node's image coordinate system.
         sys.nodes[j].setProjection();
@@ -151,7 +151,7 @@ void SBAFileIOTest::SetUp()
     double rotscale = 0.2;
     
     // Don't actually add noise to the first node, since it's fixed.
-    for (i = 1; i < sys.nodes.size(); i++)
+    for (i = 1; i < sys.nodes.size(); ++i)
     {
       Vector4d temptrans = sys.nodes[i].trans;
       Quaterniond tempqrot = sys.nodes[i].qrot;
@@ -194,7 +194,7 @@ TEST_F(SBAFileIOTest, WriteRead)
     testsys.doSBA(10, 1e-3, SBA_SPARSE_CHOLESKY);
     testsys.doSBA(10, 1e-4, SBA_SPARSE_CHOLESKY);
     
-    for (unsigned int i = 0; i < points.size(); i++)
+    for (unsigned int i = 0; i < points.size(); ++i)
     {
       EXPECT_NEAR(points[i].x(), testsys.tracks[i].point.x(), 0.2);
       EXPECT_NEAR(points[i].y(), testsys.tracks[i].point.y(), 0.2);

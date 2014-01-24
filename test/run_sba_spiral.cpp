@@ -104,7 +104,7 @@ int main(int argc, char **argv)
       // average track size
       int npts = sba.tracks.size();
       double tsize = 0;             // average track size
-      for (int i=0; i<npts; i++)
+      for (int i=0; i<npts; ++i)
         tsize += sba.tracks[i].projections.size();
       tsize = tsize/(double)npts;
 
@@ -112,15 +112,15 @@ int main(int argc, char **argv)
       int nprjs = 0;
       MatrixXi conns;
       conns.setIdentity(ncams,ncams);
-      for (int i=0; i<(int)sba.tracks.size(); i++)
+      for (int i=0; i<(int)sba.tracks.size(); ++i)
         {
           ProjMap &prjs = sba.tracks[i].projections;
           nprjs += prjs.size();
           if (prjs.size()>1)
-            for(ProjMap::iterator itr = prjs.begin(); itr != prjs.end(); itr++)
+            for(ProjMap::iterator itr = prjs.begin(); itr != prjs.end(); ++itr)
               {
                 Proj &prj = itr->second;
-                for(ProjMap::iterator itr2 = itr; itr2 != prjs.end(); itr2++)
+                for(ProjMap::iterator itr2 = itr; itr2 != prjs.end(); ++itr2)
                   {
                     Proj &prj2 = itr2->second;
                     conns(prj.ndi,prj2.ndi) = 1;
@@ -130,8 +130,8 @@ int main(int argc, char **argv)
         }
 
       int tot = 0;
-      for (int i=0; i<ncams; i++)
-        for (int j=0; j<ncams; j++)
+      for (int i=0; i<ncams; ++i)
+        for (int j=0; j<ncams; ++j)
           tot += conns(i,j);
       double mfill = (double)tot/(double)(ncams*ncams);
 
@@ -151,7 +151,7 @@ int main(int argc, char **argv)
       sba.writeFile(name);
 #endif
 
-      for (int i=0; i<3; i++)
+      for (int i=0; i<3; ++i)
         cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
       cout << endl;
 
@@ -175,7 +175,7 @@ int main(int argc, char **argv)
 
       // test results
       double sqerr = 0.0;
-      for (int i=0; i<(int)cps.size(); i++)
+      for (int i=0; i<(int)cps.size(); ++i)
         {
           Matrix<double,6,1> &cp = cps[i]; // old camera pose
           Vector3d tp = cp.head(3);
@@ -191,7 +191,7 @@ int main(int argc, char **argv)
 
       // find number of projection measurements
       int nms = 0;
-      for (int i=0; i<(int)sba.tracks.size(); i++)
+      for (int i=0; i<(int)sba.tracks.size(); ++i)
         nms += sba.tracks[i].projections.size();
 
       double cost = sba.calcCost();

@@ -392,7 +392,7 @@ int main(int argc, char **argv)
               nd.qrot(0), nd.qrot(1), nd.qrot(2), nd.qrot(3));
     }
   cout << "Wrote node poses to file " << name << endl;
-  
+  fclose(fn); 
 
   return 0;
 

@@ -26,7 +26,7 @@ class Plane
     {
       Eigen::Matrix3d rotmat = qrot.toRotationMatrix();
       
-      for (unsigned int i = 0; i < points.size(); i++)
+      for (unsigned int i = 0; i < points.size(); ++i)
       {
         points[i].head<3>() = rotmat*points[i].head<3>();
       }
@@ -42,7 +42,7 @@ class Plane
          
     void translate(const Eigen::Vector3d& trans)
     {
-      for (unsigned int i = 0; i < points.size(); i++)
+      for (unsigned int i = 0; i < points.size(); ++i)
       {
         points[i].head<3>() += trans;
       }
@@ -59,9 +59,9 @@ class Plane
     {
       double w2 = width/2.0;
       double h2 = height/2.0;
-      for (int ix = 0; ix < nptsx ; ix++)
+      for (int ix = 0; ix < nptsx ; ++ix)
       {
-        for (int iy = 0; iy < nptsy ; iy++)
+        for (int iy = 0; iy < nptsy ; ++iy)
         {
           // Create a point on the plane in a grid.
           points.push_back(Point(width/nptsx*(ix+.5)-w2, -height/nptsy*(iy+.5)+h2, 0.0, 1.0));
@@ -139,7 +139,7 @@ void setupSBA(SysSBA &sys)
     Vector3d inormal30 = mp3.normal;
     Vector3d inormal31 = mp3.normal;
     
-    for (i = 0; i < nnodes; i++)
+    for (i = 0; i < nnodes; ++i)
     { 
       // Translate in the x direction over the node path.
       Vector4d trans(i/(nnodes-1.0)*path_length, 0, 0, 1);
@@ -190,7 +190,7 @@ void setupSBA(SysSBA &sys)
     double pointnoise = 1.0;
     
     // Add points into the system, and add noise.
-    for (i = 0; i < points.size(); i++)
+    for (i = 0; i < points.size(); ++i)
     {
       // Add up to .5 points of noise.
       Vector4d temppoint = points[i];
@@ -201,7 +201,7 @@ void setupSBA(SysSBA &sys)
     }
     
     // Each point gets added twice
-    for (i = 0; i < points.size(); i++)
+    for (i = 0; i < points.size(); ++i)
     {
       // Add up to .5 points of noise.
       Vector4d temppoint = points[i];
@@ -229,7 +229,7 @@ void setupSBA(SysSBA &sys)
     int nn = points.size();
 
     // Project points into nodes.
-    for (i = 0; i < points.size(); i++)
+    for (i = 0; i < points.size(); ++i)
     {
       int k=i;
       // Project the point into the node's image coordinate system.
@@ -303,7 +303,7 @@ void setupSBA(SysSBA &sys)
     double rotscale = 0.5;
     
     // Don't actually add noise to the first node, since it's fixed.
-    for (i = 1; i < sys.nodes.size(); i++)
+    for (i = 1; i < sys.nodes.size(); ++i)
     {
       Vector4d temptrans = sys.nodes[i].trans;
       Quaterniond tempqrot = sys.nodes[i].qrot;
@@ -347,7 +347,7 @@ void processSBA(ros::NodeHandle node)
     // Provide some information about the data read in.
     unsigned int projs = 0;
     // For debugging.
-    for (int i = 0; i < (int)sys.tracks.size(); i++)
+    for (int i = 0; i < (int)sys.tracks.size(); ++i)
     {
       projs += sys.tracks[i].projections.size();
     }
@@ -394,7 +394,7 @@ void processSBA(ros::NodeHandle node)
 
 #ifdef USE_PPL
     // reset covariances and continue
-    for (int i = 0; i < points.size(); i++)
+    for (int i = 0; i < points.size(); ++i)
     {
       int nn = points.size();
       Matrix3d covar;

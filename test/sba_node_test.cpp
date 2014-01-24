@@ -38,9 +38,9 @@ void setupSBA(SysSBA &sys)
     // Vector containing the true point positions.
     vector<Point, Eigen::aligned_allocator<Point> > points;
 
-    for (int ix = 0; ix < npts_x ; ix++)
+    for (int ix = 0; ix < npts_x ; ++ix)
     {
-      for (int iy = 0; iy < npts_y ; iy++)
+      for (int iy = 0; iy < npts_y ; ++iy)
       {
         // Create a point on the plane in a grid.
         points.push_back(Point(plane_width/npts_x*(ix+.5), -plane_height/npts_y*(iy+.5), plane_distance, 1.0));
@@ -53,7 +53,7 @@ void setupSBA(SysSBA &sys)
     
     unsigned int i = 0, j = 0;
     
-    for (i = 0; i < nnodes; i++)
+    for (i = 0; i < nnodes; ++i)
     { 
       // Translate in the x direction over the node path.
       Vector4d trans(i/(nnodes-1.0)*path_length, 0, 0, 1);
@@ -72,7 +72,7 @@ void setupSBA(SysSBA &sys)
     double ptscale = 1.0;
         
     // Add points into the system, and add noise.
-    for (i = 0; i < points.size(); i++)
+    for (i = 0; i < points.size(); ++i)
     {
       // Add up to .5 points of noise.
       Vector4d temppoint = points[i];
@@ -85,9 +85,9 @@ void setupSBA(SysSBA &sys)
     Vector2d proj;
     
     // Project points into nodes.
-    for (i = 0; i < points.size(); i++)
+    for (i = 0; i < points.size(); ++i)
     {
-      for (j = 0; j < sys.nodes.size(); j++)
+      for (j = 0; j < sys.nodes.size(); ++j)
       {
         // Project the point into the node's image coordinate system.
         sys.nodes[j].setProjection();
@@ -109,7 +109,7 @@ void setupSBA(SysSBA &sys)
     double rotscale = 0.2;
     
     // Don't actually add noise to the first node, since it's fixed.
-    for (i = 1; i < sys.nodes.size(); i++)
+    for (i = 1; i < sys.nodes.size(); ++i)
     {
       Vector4d temptrans = sys.nodes[i].trans;
       Quaterniond tempqrot = sys.nodes[i].qrot;
@@ -195,7 +195,7 @@ void processSBA(ros::NodeHandle nh)
     // Provide some information about the data read in.
     // For debugging.
     unsigned int projs = 0;
-    for (int i = 0; i < (int)sys.tracks.size(); i++)
+    for (int i = 0; i < (int)sys.tracks.size(); ++i)
     {
       projs += sys.tracks[i].projections.size();
     }
@@ -211,7 +211,7 @@ void processSBA(ros::NodeHandle nh)
     cp.tx = 0;   // Baseline (no baseline since this is monocular)
     
     // Add frames to SBA node.
-    for (unsigned int i = 0; i < sys.nodes.size(); i++)
+    for (unsigned int i = 0; i < sys.nodes.size(); ++i)
     {
       sba::Frame framemsg;
       sba::CameraNode nodemsg;
@@ -220,7 +220,7 @@ void processSBA(ros::NodeHandle nh)
       
       framemsg.nodes.push_back(nodemsg);
       
-      for (unsigned int j = 0; j < sys.tracks.size(); j++)
+      for (unsigned int j = 0; j < sys.tracks.size(); ++j)
       {
         if (i == 0)
         {

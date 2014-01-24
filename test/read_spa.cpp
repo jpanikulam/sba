@@ -145,7 +145,7 @@ ReadSPAFile(char *fin,          // input file
   bool first = true;
   while (getline(ifs,line))
     {
-      nline++;
+      ++nline;
       stringstream ss(line);    // make a string stream
       string type;
       ss >> type;
@@ -200,7 +200,7 @@ ReadSPAFile(char *fin,          // input file
           if (first)
             {
               //cout << endl;
-              //for (int j=0; j<21; j++);
+              //for (int j=0; j<21; ++j);
                 //cout << cv[j] << " ";
               //cout << endl << endl << << m << endl;
               first = false;
@@ -328,7 +328,7 @@ ReadSPA2dFile(char *fin,          // input file
   bool first = true;
   while (getline(ifs,line))
     {
-      nline++;
+      ++nline;
       stringstream ss(line);    // make a string stream
       string type;
       ss >> type;
@@ -355,7 +355,7 @@ ReadSPA2dFile(char *fin,          // input file
             }
           ntrans.push_back(Vector2d(tx,ty));
           narot.push_back(rr);
-          ind[n] = cur++;
+          ind[n] = ++cur;
         }
 
       if (type == "EDGE2")      // have an edge
@@ -396,7 +396,7 @@ ReadSPA2dFile(char *fin,          // input file
           if (first)
             {
               // cout << endl;
-              // for (int j=0; j<6; j++)
+              // for (int j=0; j<6; ++j)
               //   cout << cv[j] << " ";
               // cout << endl << endl << m << endl;
               first = false;

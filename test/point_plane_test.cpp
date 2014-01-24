@@ -23,7 +23,7 @@ class Plane
     {
       Eigen::Matrix3d rotmat = qrot.toRotationMatrix();
       
-      for (unsigned int i = 0; i < points.size(); i++)
+      for (unsigned int i = 0; i < points.size(); ++i)
       {
         points[i].head<3>() = rotmat*points[i].head<3>();
       }
@@ -39,7 +39,7 @@ class Plane
          
     void translate(const Eigen::Vector3d& trans)
     {
-      for (unsigned int i = 0; i < points.size(); i++)
+      for (unsigned int i = 0; i < points.size(); ++i)
       {
         points[i].head<3>() += trans;
       }
@@ -54,9 +54,9 @@ class Plane
     // Creates a plane with origin at (0,0,0) and opposite corner at (width, height, 0).
     void resize(double width, double height, int nptsx, int nptsy)
     {
-      for (int ix = 0; ix < nptsx ; ix++)
+      for (int ix = 0; ix < nptsx ; ++ix)
       {
-        for (int iy = 0; iy < nptsy ; iy++)
+        for (int iy = 0; iy < nptsy ; ++iy)
         {
           // Create a point on the plane in a grid.
           points.push_back(Point(width/nptsx*(ix+.5), -height/nptsy*(iy+.5), 0.0, 1.0));
@@ -138,7 +138,7 @@ void SBAPointPlaneTest::SetUp()
     
     unsigned int i = 0, j = 0;
     
-    for (i = 0; i < nnodes; i++)
+    for (i = 0; i < nnodes; ++i)
     { 
       // Translate in the x direction over the node path.
       Vector4d trans(i/(nnodes-1.0)*path_length, 0, 0, 1);
@@ -158,7 +158,7 @@ void SBAPointPlaneTest::SetUp()
     double pointnoise = 1.0;
     
     // Add points into the system, and add noise.
-    for (i = 0; i < points.size(); i++)
+    for (i = 0; i < points.size(); ++i)
     {
       // Add up to .5 points of noise.
       Vector4d temppoint = points[i];
@@ -190,9 +190,9 @@ void SBAPointPlaneTest::SetUp()
       rightplane.normal.x(), rightplane.normal.y(), rightplane.normal.z());
     
     // Project points into nodes.
-    for (i = 0; i < points.size(); i++)
+    for (i = 0; i < points.size(); ++i)
     {
-      for (j = 0; j < sys.nodes.size(); j++)
+      for (j = 0; j < sys.nodes.size(); ++j)
       {
         // Project the point into the node's image coordinate system.
         sys.nodes[j].setProjection();
@@ -232,7 +232,7 @@ void SBAPointPlaneTest::SetUp()
     double rotscale = 0.2;
     
     // Don't actually add noise to the first node, since it's fixed.
-    for (i = 1; i < sys.nodes.size(); i++)
+    for (i = 1; i < sys.nodes.size(); ++i)
     {
       Vector4d temptrans = sys.nodes[i].trans;
       Quaterniond tempqrot = sys.nodes[i].qrot;
@@ -264,7 +264,7 @@ TEST_F(SBAPointPlaneTest, WriteRead)
     sys.doSBA(10, 1e-3, SBA_SPARSE_CHOLESKY);
     //testsys.doSBA(10, 1e-4, SBA_SPARSE_CHOLESKY);
     
-    for (unsigned int i = 0; i < points.size(); i++)
+    for (unsigned int i = 0; i < points.size(); ++i)
     {
       EXPECT_NEAR(points[i].x(), sys.tracks[i].point.x(), 0.01);
       EXPECT_NEAR(points[i].y(), sys.tracks[i].point.y(), 0.01);

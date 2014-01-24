@@ -69,6 +69,8 @@ int main (int argc, char **argv)
     {
 	cholmod_free_sparse (&A, &c) ;
 	cholmod_finish (&c) ;
+        if (ff) fclose(ff);
+        if (fb) fclose(fb);
 	return (0) ;
     }
     if (fb)

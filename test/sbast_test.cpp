@@ -93,7 +93,7 @@ TEST(SBAtest, SimpleSystem)
          1,    1,   4,   1.0,
         -1,   -1,   4,   1.0;
 
-  for (int i=0; i<pts.rows(); i++)
+  for (int i=0; i<pts.rows(); ++i)
     {
       Point pt(pts.row(i));
       sys.addPoint(pt);
@@ -162,7 +162,7 @@ TEST(SBAtest, SimpleSystem)
   double inoise = 0.5;
   Vector3d n2;
 
-  for(unsigned int i = 0; i < sys.tracks.size(); i++)
+  for(unsigned int i = 0; i < sys.tracks.size(); ++i)
     {
       Point pt = sys.tracks[i].point;      
       ProjMap &prjs = sys.tracks[i].projections;	// new point track
@@ -200,7 +200,7 @@ TEST(SBAtest, SimpleSystem)
       prjs[prjs.size()] = prj;
 
       //sys.tracksSt.push_back(prjs);
-      ind++;
+      ++ind;
     }
 
 
@@ -283,13 +283,13 @@ TEST(SBAtest, SimpleSystem)
   EXPECT_EQ_ABS(cost,0.0,10.0);
   // cameras should be close to their original positions,
   //   adjusted for scale on translations
-  for (int i=0; i<4; i++)
+  for (int i=0; i<4; ++i)
     EXPECT_EQ_ABS(sys.nodes[1].qrot.coeffs()[i],frq2.coeffs()[i],0.01);
-  for (int i=0; i<4; i++)
+  for (int i=0; i<4; ++i)
     EXPECT_EQ_ABS(sys.nodes[2].qrot.coeffs()[i],frq3.coeffs()[i],0.01);
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     EXPECT_EQ_ABS(frt2a(i),frt2(i),0.01);
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     EXPECT_EQ_ABS(frt3a(i),frt3(i),0.01);
 
 #if 1
@@ -323,7 +323,7 @@ TEST(SBAtest, SimpleSystem)
 
   // set up projections onto nodes
   ind = 0;
-  for(vector<Point,Eigen::aligned_allocator<Point> >::iterator itr = sys.points.begin(); itr!=sys.points.end(); itr++)
+  for(vector<Point,Eigen::aligned_allocator<Point> >::iterator itr = sys.points.begin(); itr!=sys.points.end(); ++itr)
     {
       Point pt = *itr;      
       vector<Proj,Eigen::aligned_allocator<Proj> > prjs;	// new point track
@@ -346,7 +346,7 @@ TEST(SBAtest, SimpleSystem)
       prjs.push_back(prj);
 
       sys.tracks.push_back(prjs);
-      ind++;
+      ++ind;
     }
 
   sys.doSBA(3);

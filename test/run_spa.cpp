@@ -31,6 +31,7 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
+#pragma GCC diagnostic warning "-Wuninitialized"
 
 //
 // Running reduced pose system
@@ -103,7 +104,7 @@ addnode(SysSPA &spa, int n,
   spa.nodes.push_back(nd);
 
   // add in constraints
-  for (int i=0; i<(int)ctrans.size(); i++)
+  for (int i=0; i<(int)ctrans.size(); ++i)
     {
       ConP2 con;
       con.ndr = cind[i].x();
@@ -213,7 +214,7 @@ int main(int argc, char **argv)
   // add in nodes
   for (int i=0; i<nnodes-1; i+=doiters)
     {
-      for (int j=0; j<doiters; j++)
+      for (int j=0; j<doiters; ++j)
         if (i+j+1 < nnodes)
           addnode(spa, i+j+1, ntrans, nqrot, cind, ctrans, cqrot, cvar);
 
@@ -241,12 +242,12 @@ int main(int argc, char **argv)
   printf("[TestSPA] Compute took %0.2f ms/node, total squared cost %0.2f ms\n", 0.001*(double)cumtime/(double)nnodes, cumtime*0.001);
 
   //ofstream ofs("sphere-ground.txt");
-  //for (int i=0; i<(int)ntrans.size(); i++)
+  //for (int i=0; i<(int)ntrans.size(); ++i)
     //ofs << ntrans[i].transpose() << endl;
   //ofs.close();
 
   //ofstream ofs2("sphere-opt.txt");
-  //for (int i=0; i<(int)spa.nodes.size(); i++)
+  //for (int i=0; i<(int)spa.nodes.size(); ++i)
     //ofs2 << spa.nodes[i].trans.transpose().head(3) << endl;
   //ofs2.close();
 

@@ -35,6 +35,7 @@
 //
 // Running reduced pose system
 //
+#pragma GCC diagnostic warning "-Wuninitialized"
 
 #include <stdio.h>
 #include <iostream>
@@ -97,7 +98,7 @@ addnode(SysSPA2d &spa, int n,
   //  cout << nd0.trans.transpose() << endl << nd1.trans.transpose() << endl << endl;
 
   // add in constraints
-  for (int i=0; i<(int)ctrans.size(); i++)
+  for (int i=0; i<(int)ctrans.size(); ++i)
     {
       Con2dP2 con;
       con.ndr = cind[i].x();
@@ -199,7 +200,7 @@ int main(int argc, char **argv)
   // add in nodes
   for (int i=0; i<nnodes-1; i+=doiters)
     {
-      for (int j=0; j<doiters; j++)
+      for (int j=0; j<doiters; ++j)
         addnode(spa, i+j+1, ntrans, arots, cind, ctrans, carot, cvar);
 
       // cout << "[SysSPA2d] Using " << (int)spa.nodes.size() << " nodes and " 
@@ -240,12 +241,12 @@ int main(int argc, char **argv)
 
 #if 0
   ofstream ofs("opt2d-ground.txt");
-  for (int i=0; i<(int)ntrans.size(); i++)
+  for (int i=0; i<(int)ntrans.size(); ++i)
     ofs << ntrans[i].transpose() << endl;
   ofs.close();
 
   ofstream ofs2("opt2d-opt.txt");
-  for (int i=0; i<(int)spa.nodes.size(); i++)
+  for (int i=0; i<(int)spa.nodes.size(); ++i)
     ofs2 << spa.nodes[i].trans.transpose().head(2) << endl;
   ofs2.close();
 #endif

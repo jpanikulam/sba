@@ -150,7 +150,7 @@ TEST(TestJacobians, TestJac2dP2)
     Vector2d pc = pc2 - pc1;
     pc = pc/dq;
 
-    for (int i=0; i<2; i++)
+    for (int i=0; i<2; ++i)
       EXPECT_EQ_TOL(pc(i),con.J0(i,2));
   }
 
@@ -166,7 +166,7 @@ TEST(TestJacobians, TestJac2dP2)
     Vector2d pc = pc2 - pc1;
     pc = pc/dq;
 
-    for (int i=0; i<2; i++)
+    for (int i=0; i<2; ++i)
       EXPECT_EQ_TOL(pc(i),con.J1(i,2));
   }
 
@@ -183,7 +183,7 @@ TEST(TestJacobians, TestJac2dP2)
     Vector2d pc = pc2 - pc1;
     pc = pc/dq;
 
-    for (int i=0; i<2; i++)
+    for (int i=0; i<2; ++i)
       EXPECT_EQ_TOL(pc(i),con.J0(i,0));
   }
 
@@ -198,7 +198,7 @@ TEST(TestJacobians, TestJac2dP2)
     Vector2d pc = pc2 - pc1;
     pc = pc/dq;
 
-    for (int i=0; i<2; i++)
+    for (int i=0; i<2; ++i)
       EXPECT_EQ_TOL(pc(i),con.J0(i,1));
   }
 
@@ -215,7 +215,7 @@ TEST(TestJacobians, TestJac2dP2)
     Vector2d pc = pc2 - pc1;
     pc = pc/dq;
 
-    for (int i=0; i<2; i++)
+    for (int i=0; i<2; ++i)
       EXPECT_EQ_TOL(pc(i),con.J1(i,0));
   }
 
@@ -230,7 +230,7 @@ TEST(TestJacobians, TestJac2dP2)
     Vector2d pc = pc2 - pc1;
     pc = pc/dq;
 
-    for (int i=0; i<2; i++)
+    for (int i=0; i<2; ++i)
       EXPECT_EQ_TOL(pc(i),con.J1(i,1));
   }
 
@@ -401,7 +401,7 @@ TEST(TestSPA2d, TestSimple10_i90)
 
   // test results
   double sqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,3,1> &cp = cps[i]; // old camera pose
       Vector2d tp = cp.head(2);
@@ -447,7 +447,7 @@ TEST(TestSPA2d, TestSimple10_i0)
 
   // test results
   double sqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,3,1> &cp = cps[i]; // old camera pose
       Vector2d tp = cp.head(2);
@@ -495,7 +495,7 @@ TEST(TestSPA2d, TestSimple400nodesSparse)
   // test results
   double sqerr = 0.0;
   double asqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,3,1> &cp = cps[i]; // old camera pose
       Vector2d tp = cp.head(2);
@@ -560,7 +560,7 @@ TEST(TestSPA2d, TestSimple400nodes)
   // test results
   double sqerr = 0.0;
   double asqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,3,1> &cp = cps[i]; // old camera pose
       Vector2d tp = cp.head(2);

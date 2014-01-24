@@ -308,7 +308,7 @@ TEST(SBAtest, SimpleSystem)
 
   // set up projections onto nodes
   ind = 0;
-  for(vector<Point,Eigen::aligned_allocator<Point> >::iterator itr = sys.points.begin(); itr!=sys.points.end(); itr++)
+  for(vector<Point,Eigen::aligned_allocator<Point> >::iterator itr = sys.points.begin(); itr!=sys.points.end(); ++itr)
     {
       Point pt = *itr;      
       vector<Proj,Eigen::aligned_allocator<Proj> > prjs;	// new point track

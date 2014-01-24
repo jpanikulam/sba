@@ -193,7 +193,7 @@ TEST(TestSBA, SpiralSystem_init90n)
 
   sba.printStats();
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
@@ -206,14 +206,14 @@ TEST(TestSBA, SpiralSystem_init90n)
   printf("[TestSBA] Compute took %0.2f ms/iter\n", 0.001*(double)(t1-t0)/(double)niters);
   printf("[TestSBA] Accepted iterations: %d\n", niters);
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
 
   // test results
   double sqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -231,7 +231,7 @@ TEST(TestSBA, SpiralSystem_init90n)
 
   // find number of projection measurements
   int nms = 0;
-  for (int i=0; i<(int)sba.tracks.size(); i++)
+  for (int i=0; i<(int)sba.tracks.size(); ++i)
     nms += sba.tracks[i].projections.size();
   double cost = sba.calcCost();
   cost = sqrt(cost/nms);
@@ -257,7 +257,7 @@ TEST(TestSBA, SpiralSystem_init0)
                                                     // initial angle, number of cycles (frames),
                0.0, 0.05, 0.01); // image noise (pixels), frame noise (meters)
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
@@ -269,14 +269,14 @@ TEST(TestSBA, SpiralSystem_init0)
   printf("[TestSBA] Compute took %0.2f ms/iter\n", 0.001*(double)(t1-t0)/(double)niters);
   printf("[TestSBA] Accepted iterations: %d\n", niters);
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
 
   // test results
   double sqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -318,7 +318,7 @@ TEST(TestSBA, SpiralSystem_global_init0)
   // check isValid flag
   //  (sba.tracks[0])[0].isValid = false;
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
@@ -331,14 +331,14 @@ TEST(TestSBA, SpiralSystem_global_init0)
   printf("[TestSBA] Compute took %0.2f ms/iter\n", 0.001*(double)(t1-t0)/(double)niters);
   printf("[TestSBA] Accepted iterations: %d\n", niters);
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
 
   // test results
   double sqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -379,7 +379,7 @@ TEST(TestSBA, SpiralSystem_init90)
   // check isValid flag
   //  (sba.tracks[0])[0].isValid = false;
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
@@ -392,14 +392,14 @@ TEST(TestSBA, SpiralSystem_init90)
   printf("[TestSBA] Compute took %0.2f ms/iter\n", 0.001*(double)(t1-t0)/(double)niters);
   printf("[TestSBA] Accepted iterations: %d\n", niters);
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
 
   // test results
   double sqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -443,7 +443,7 @@ TEST(TestSBA, SpiralSystem_init180)
   // check isValid flag
   //  (sba.tracks[0])[0].isValid = false;
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
@@ -456,14 +456,14 @@ TEST(TestSBA, SpiralSystem_init180)
   printf("[TestSBA] Compute took %0.2f ms/iter\n", 0.001*(double)(t1-t0)/(double)niters);
   printf("[TestSBA] Accepted iterations: %d\n", niters);
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
 
   // test results
   double sqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -505,7 +505,7 @@ TEST(TestSBA, SpiralSystem_global_init180)
   // check isValid flag
   //  (sba.tracks[0])[0].isValid = false;
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
@@ -518,14 +518,14 @@ TEST(TestSBA, SpiralSystem_global_init180)
   printf("[TestSBA] Compute took %0.2f ms/iter\n", 0.001*(double)(t1-t0)/(double)niters);
   printf("[TestSBA] Accepted iterations: %d\n", niters);
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
 
   // test results
   double sqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -570,7 +570,7 @@ TEST(TestSBA, SpiralSystem_global_init90n)
   cout << "[Spiral] Testing global angles" << endl;
   cout << "[Spiral] Initial cost is " << sba.calcCost() << endl;
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
@@ -584,14 +584,14 @@ TEST(TestSBA, SpiralSystem_global_init90n)
   printf("[TestSBA] Compute took %0.2f ms/iter\n", 0.001*(double)(t1-t0)/(double)niters);
   printf("[TestSBA] Accepted iterations: %d\n", niters);
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
 
   // test results
   double sqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -609,7 +609,7 @@ TEST(TestSBA, SpiralSystem_global_init90n)
 
   // find number of projection measurements
   int nms = 0;
-  for (int i=0; i<(int)sba.tracks.size(); i++)
+  for (int i=0; i<(int)sba.tracks.size(); ++i)
     nms += sba.tracks[i].projections.size();
   double cost = sba.calcCost();
   cost = sqrt(cost/nms);
@@ -638,7 +638,7 @@ TEST(TestSBA, SpiralSystem_global_400)
 
   sba.printStats();
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
@@ -659,14 +659,14 @@ TEST(TestSBA, SpiralSystem_global_400)
   cout << "[SBAsys] Reduced " << gone << " tracks" << endl;
   niters = sba.doSBA(5);
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
 
   // test results
   double sqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -684,7 +684,7 @@ TEST(TestSBA, SpiralSystem_global_400)
 
   // find number of projection measurements
   int nms = 0;
-  for (int i=0; i<(int)sba.tracks.size(); i++)
+  for (int i=0; i<(int)sba.tracks.size(); ++i)
     nms += sba.tracks[i].projections.size();
 
   double cost = sba.calcCost();
@@ -716,7 +716,7 @@ TEST(TestSBA, SpiralSystem_54)
   //  cout << "[SBAsys] Writing file" << endl;
   //  sba.writeFile("700cams.txt");
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
@@ -743,14 +743,14 @@ TEST(TestSBA, SpiralSystem_54)
 
   niters = sba.doSBA(10,1.0e-4,true);
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
 
   // test results
   double sqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -768,7 +768,7 @@ TEST(TestSBA, SpiralSystem_54)
 
   // find number of projection measurements
   int nms = 0;
-  for (int i=0; i<(int)sba.tracks.size(); i++)
+  for (int i=0; i<(int)sba.tracks.size(); ++i)
     nms += sba.tracks[i].projections.size();
 
   double cost = sba.calcCost();
@@ -803,7 +803,7 @@ TEST(TestSBA, SpiralSystem_400)
   writeLourakisFile("spiral-4000", sba);
 #endif
 
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; ++i)
     cout << "Quaternion: " << sba.nodes[i].qrot.coeffs().transpose() << endl;
   cout << endl;
 
@@ -832,7 +832,7 @@ TEST(TestSBA, SpiralSystem_400)
 
   // test results
   double sqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -850,7 +850,7 @@ TEST(TestSBA, SpiralSystem_400)
 
   // find number of projection measurements
   int nms = 0;
-  for (int i=0; i<(int)sba.tracks.size(); i++)
+  for (int i=0; i<(int)sba.tracks.size(); ++i)
     nms += sba.tracks[i].projections.size();
 
   double cost = sba.calcCost();
@@ -863,8 +863,6 @@ int main(int argc, char **argv)
 {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
-
-  return 0;
 }
 
 

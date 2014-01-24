@@ -96,7 +96,7 @@ drawgraph(SysSBA &sba, ros::Publisher &cam_pub, ros::Publisher &pt_pub, int dec)
   // draw points, decimated
   int npts = sba.tracks.size();
   ptmark.points.resize(npts/dec+1);
-  for (int i=0, ii=0; i<npts; i+=dec, ii++)
+  for (int i=0, ii=0; i<npts; i+=dec, ++ii)
     {
       Vector4d &pt = sba.tracks[i].point;
       ptmark.points[ii].x = pt(0);
@@ -107,7 +107,7 @@ drawgraph(SysSBA &sba, ros::Publisher &cam_pub, ros::Publisher &pt_pub, int dec)
   // draw cameras
   int ncams = sba.nodes.size();
   cammark.points.resize(ncams*6);
-  for (int i=0, ii=0; i<ncams; i++)
+  for (int i=0, ii=0; i<ncams; ++i)
     {
       Node &nd = sba.nodes[i];
       Vector3d opt;
@@ -180,7 +180,7 @@ int main(int argc, char **argv)
   int ncams = camps.size();
   int npts  = ptps.size();
   int nprjs = 0;
-  for (int i=0; i<npts; i++)
+  for (int i=0; i<npts; ++i)
     nprjs += (int)ptts[i].size();
   cout << "Points: " << npts << "  Tracks: " << ptts.size() 
        << "  Projections: " << nprjs << endl;
@@ -198,7 +198,7 @@ int main(int argc, char **argv)
 
   // set up nodes/frames
   cout << "Setting up nodes..." << flush;
-  for (int i=0; i<ncams; i++)
+  for (int i=0; i<ncams; ++i)
     {
       // camera params
       Vector3d &camp = camps[i];
@@ -244,7 +244,7 @@ int main(int argc, char **argv)
 
   // set up points
   cout << "Setting up points..." << flush;
-  for (int i=0; i<npts; i++)
+  for (int i=0; i<npts; ++i)
     {
       // point
       Vector3d &ptp = ptps[i];
@@ -262,12 +262,12 @@ int main(int argc, char **argv)
   // set up projections
   int ntot = 0;
   cout << "Setting up projections..." << flush;
-  for (int i=0; i<npts; i++)
+  for (int i=0; i<npts; ++i)
     {
       // track
       vector<Vector4d, Eigen::aligned_allocator<Vector4d> > &ptt = ptts[i];
       int nprjs = ptt.size();
-      for (int j=0; j<nprjs; j++)
+      for (int j=0; j<nprjs; ++j)
 	{
 	  // projection
 	  Vector4d &prj = ptt[j];
@@ -277,7 +277,7 @@ int main(int argc, char **argv)
 	  if (cami >= ncams)
 	    cout << "*** Cam index exceeds bounds: " << cami << endl;
 	  sys.addMonoProj(cami,i,pt); // camera indices aren't ordered
-	  ntot++;
+	  ++ntot;
 
 #if 0
 	  if (ntot==1000000)
@@ -351,7 +351,7 @@ int main(int argc, char **argv)
   //  sys.doSBA(30,1.0e-3,true);
   sys.doSBA(1,1e-3,1);
   drawgraph(sys,cam_pub,pt_pub,2);
-  for (int i=0; i<20; i++)
+  for (int i=0; i<20; ++i)
     {
       sys.doSBA(1,0.0,1);      
       drawgraph(sys,cam_pub,pt_pub,2);
@@ -368,12 +368,12 @@ int main(int argc, char **argv)
   // set up projections
   sys.tracks.resize(0);
   cout << "Setting up projections..." << flush;
-  for (int i=0; i<npts; i++)
+  for (int i=0; i<npts; ++i)
     {
       // track
       vector<Vector4d, Eigen::aligned_allocator<Vector4d> > &ptt = ptts[i];
       int nprjs = ptt.size();
-      for (int j=0; j<nprjs; j++)
+      for (int j=0; j<nprjs; ++j)
 	    {
 	      // projection
 	      Vector4d &prj = ptt[j];
@@ -383,7 +383,7 @@ int main(int argc, char **argv)
 	      if (cami >= ncams)
 	        cout << "*** Cam index exceeds bounds: " << cami << endl;
 	      sys.addMonoProj(cami,i,pt); // camera indices aren't ordered
-	      ntot++;
+	      ++ntot;
 	    }
     }
   cout << "done" << endl;

@@ -92,7 +92,7 @@ drawgraph(SysSPA &spa, ros::Publisher &cam_pub, ros::Publisher &link_pub)
   int ncams = spa.nodes.size();
   cammark.points.resize(ncams*6);
   printf("Cams: %d\n", ncams);
-  for (int i=0, ii=0; i<ncams; i++)
+  for (int i=0, ii=0; i<ncams; ++i)
     {
       Node &nd = spa.nodes[i];
       Vector3d opt;
@@ -127,7 +127,7 @@ drawgraph(SysSPA &spa, ros::Publisher &cam_pub, ros::Publisher &link_pub)
   // draw links
   int nlinks = spa.p2cons.size();
   linkmark.points.resize(2*nlinks);
-  for (int i=0; i<nlinks; i++)
+  for (int i=0; i<nlinks; ++i)
     {
       ConP2 &con = spa.p2cons[i];
       Node &nd0 = spa.nodes[con.ndr];
@@ -300,7 +300,7 @@ int main(int argc, char **argv)
   // write out pose results and originals
   cout << "[SPAsys] Writing pose file" << endl;  
   ofstream ofs3("P400.init.txt");
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Vector3d tpn = spa.nodes[i].trans.head(3);
       ofs3 << tpn.transpose() << endl;
@@ -314,7 +314,7 @@ int main(int argc, char **argv)
 #if 1
   ConScale con;
   con.w = con_weight;                // weight
-  for (int i=0; i<(int)cps.size()-3; i++)
+  for (int i=0; i<(int)cps.size()-3; ++i)
     {
       int k = i;
       if (i > 200)
@@ -407,7 +407,7 @@ int main(int argc, char **argv)
   {
     ConScale con;
     con.w = 0.1;                // weight
-    for (int i=72; i<(int)cps.size()-20; i++)
+    for (int i=72; i<(int)cps.size()-20; ++i)
       {
         con.nd0 = i;              // first node
         con.nd1 = i-2;            // second node
@@ -520,7 +520,7 @@ int main(int argc, char **argv)
   // test results
   double sqerr = 0.0;
   double asqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -560,7 +560,7 @@ int main(int argc, char **argv)
   int iters = 20;
   long long t0, t1;
   double ttime = 0.0;
-  for (int i=0; i<iters; i++)
+  for (int i=0; i<iters; ++i)
     {
       t0 = utime();
       int niters = spa.doSPA(1,0.0);
@@ -585,7 +585,7 @@ int main(int argc, char **argv)
   cout << "[SPAsys] Writing pose file" << endl;  
   ofstream ofs1("P400.ground.txt");
   ofstream ofs2("P400.optim.txt");
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
@@ -605,7 +605,7 @@ int main(int argc, char **argv)
   // test results
   double sqerr = 0.0;
   double asqerr = 0.0;
-  for (int i=0; i<(int)cps.size(); i++)
+  for (int i=0; i<(int)cps.size(); ++i)
     {
       Matrix<double,6,1> &cp = cps[i]; // old camera pose
       Vector3d tp = cp.head(3);
