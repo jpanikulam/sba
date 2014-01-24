@@ -837,10 +837,10 @@ namespace sba
     // check the matrix and vector
     for (int i=0; i<6*nFree; i++)
       for (int j=0; j<6*nFree; j++)
-        if (isnan(A(i,j)) ) { printf("[SetupSys] NaN in A\n"); *(int *)0x0 = 0; }
+        if (::isnan(A(i,j)) ) { printf("[SetupSys] NaN in A\n"); *(int *)0x0 = 0; }
 
     for (int j=0; j<6*nFree; j++)
-      if (isnan(B[j]) ) { printf("[SetupSys] NaN in B\n"); *(int *)0x0 = 0; }
+      if (::isnan(B[j]) ) { printf("[SetupSys] NaN in B\n"); *(int *)0x0 = 0; }
 
     int ndc = 0;
     for (int i=0; i<nFree; i++)
