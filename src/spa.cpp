@@ -56,6 +56,7 @@
 using namespace Eigen;
 using namespace std;
 
+#include <utility>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -1192,7 +1193,7 @@ namespace sba
       node = 0;
     dist[node] = 0.0;
     multimap<double,int> open;  // open list, priority queue - can have duplicates
-    open.insert(make_pair<double,int>(0.0,node));
+    open.insert(std::make_pair<double,int>(0.0,int(node)));
 
     // do breadth-first computation
     while (!open.empty())
@@ -1230,7 +1231,7 @@ namespace sba
               {
                 // set priority queue
                 dist[nn] = di+dd;
-                open.insert(make_pair<double,int>(di+dd,nn));
+                open.insert(std::make_pair<double,int>(di+dd,int(nn)));
                 // update initial pose
                 Vector4d trans;
                 trans.head(3) = tmean;

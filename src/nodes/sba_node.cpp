@@ -153,7 +153,7 @@ void SBANode::doSBA(/*const ros::TimerEvent& event*/)
     
     double cost = sba.calcRMSCost();
     
-    if (isnan(cost) || isinf(cost)) // is NaN?
+    if (::isnan(cost) || ::isinf(cost)) // is NaN?
     {
       ROS_INFO("NaN cost!");  
     }

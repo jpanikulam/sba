@@ -40,6 +40,7 @@
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/Point.h>
 
+#include <utility>
 #include <stdio.h>
 #include <iostream>
 #include <iomanip>
@@ -79,7 +80,7 @@ void buildConstraintCache(std::multimap<int,int>& constraintCache, std::vector< 
       idx_a=idx_b;
       idx_b=aux;
     }
-    constraintCache.insert(make_pair(idx_a,i));
+    constraintCache.insert(std::make_pair(idx_a,i));
   }
 }
 
