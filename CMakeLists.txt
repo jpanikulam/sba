@@ -8,12 +8,12 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 find_package(catkin REQUIRED COMPONENTS bpcg message_generation std_msgs visualization_msgs geometry_msgs)
 find_package(Boost REQUIRED COMPONENTS thread)
-find_package(Eigen REQUIRED)
+find_package(Eigen3 REQUIRED)
 find_package(SuiteSparse REQUIRED)
 find_package(LAPACK REQUIRED)
 include_directories(
     include
-    ${Eigen_INCLUDE_DIRS}
+    ${EIGEN_INCLUDE_DIR}
     ${Boost_INCLUDE_DIRS}
     ${SuiteSparse_INCLUDE_DIRS}
     ${LAPACK_INCLUDE_DIRS}
@@ -35,7 +35,7 @@ generate_messages(DEPENDENCIES std_msgs visualization_msgs geometry_msgs)
 catkin_package(
     LIBRARIES sba
     INCLUDE_DIRS include
-    DEPENDS Eigen
+    DEPENDS Eigen bpcg
     CFG_EXTRAS sba-extra.cmake
 )
 
@@ -50,3 +50,9 @@ target_link_libraries(sba blas lapack cholmod cxsparse)
 
 # SBA library with ROS & utilities, including reading from file and visualization.
 add_library(sba_vis src/visualization.cpp)
+
+#install(TARGETS sba sba_vis
+#        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#        RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
+#      # FILES_MATCHING PATTERN "*.h"

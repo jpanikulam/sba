@@ -71,7 +71,7 @@ extern "C" {
 #endif
 
 // block jacobian PCG
-#include "bpcg/bpcg.h"
+#include <bpcg/bpcg.h>
 
 using namespace Eigen;
 using namespace std;
@@ -92,11 +92,11 @@ namespace sba
     // storage of diagonal blocks
     vector< Matrix<double,6,6>, aligned_allocator<Matrix<double,6,6> > > diag;
     // compressed column storage of blocks
-    vector< map<int,Matrix<double,6,6>, less<int>, 
+    vector< map<int,Matrix<double,6,6>, less<int>,
                 aligned_allocator<Matrix<double,6,6> > > > cols;
 
     void setupBlockStructure(int n); // size of rows/cols of A (in blocks)
-    
+
     // add in blocks
     inline void addDiagBlock(Matrix<double,6,6> &m, int n)
       { diag[n]+=m; };
@@ -105,7 +105,7 @@ namespace sba
 
     // set up compressed column structure; <init> true if first time
     // <diaginc> is the diagonal multiplier for LM
-    void setupCSstructure(double diaginc, bool init=false); 
+    void setupCSstructure(double diaginc, bool init=false);
 
     // write cs structure into a dense Eigen matrix
     void uncompress(MatrixXd &m);
@@ -157,11 +157,11 @@ namespace sba
     // storage of diagonal blocks
     vector< Matrix<double,3,3>, aligned_allocator<Matrix<double,3,3> > > diag;
     // compressed column storage of blocks
-    vector< map<int,Matrix<double,3,3>, less<int>, 
+    vector< map<int,Matrix<double,3,3>, less<int>,
                 aligned_allocator<Matrix<double,3,3> > > > cols;
 
     void setupBlockStructure(int n, bool eraseit = true); // size of rows/cols of A (in blocks)
-    
+
     // add in blocks
     inline void addDiagBlock(Matrix<double,3,3> &m, int n)
       { diag[n]+=m; };
@@ -170,7 +170,7 @@ namespace sba
 
     // set up compressed column structure; <init> true if first time
     // <diaginc> is the diagonal multiplier for LM
-    void setupCSstructure(double diaginc, bool init=false); 
+    void setupCSstructure(double diaginc, bool init=false);
 
     // write cs structure into a dense Eigen matrix
     void uncompress(MatrixXd &m);
@@ -196,7 +196,7 @@ namespace sba
     int doPCG(int iters);
 
     // doing the BPCG
-    // max iterations <iter>, ending toleranace <tol>    
+    // max iterations <iter>, ending toleranace <tol>
     int doBPCG(int iters, double tol, int sba_iter);
     // CG structure for 3x3 matrices
     jacobiBPCG<3> bpcg;
